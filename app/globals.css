@@ -19,18 +19,16 @@ body {
 
 .mobile-layout {
     width: 100vw;
-    min-height: 100vh;
-    background: transparent; /* allow html background to show through */
+    background: transparent;
     display: flex;
     flex-direction: column;
     margin: 0 auto;
-    box-shadow: none; /* remove shadow that could look like a white band */
+    box-shadow: none;
 }
 
 @media (min-width: 768px) and (max-width: 1024px) {
     .mobile-layout {
         width: 100vw;
-        min-height: 100vh;
         border-radius: 0;
         margin: 0;
         box-shadow: none;
@@ -40,9 +38,8 @@ body {
 @media (min-width: 1025px) {
     .mobile-layout {
         width: 430px;
-        min-height: 100vh;
         border-radius: 1.5rem;
-        box-shadow: none; /* keep no shadow to avoid visible band */
+        box-shadow: none;
     }
 }
 
