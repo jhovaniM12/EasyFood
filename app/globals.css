@@ -1,15 +1,237 @@
 @import "tailwindcss";
 
 :root {
-    background-color: #ffffff;
     color: #111827;
 }
 
 body {
-    background-color: #ffffff;
     color: #111827;
     font-family: system-ui, -apple-system, sans-serif;
     margin: 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+.layout-bg {
+        background: #e5e7eb; /* gris claro */
+        min-height: 100vh;
+}
+
+.mobile-layout {
+    width: 100vw;
+    min-height: 100vh;
+    background: transparent; /* allow html background to show through */
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    box-shadow: none; /* remove shadow that could look like a white band */
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .mobile-layout {
+        width: 100vw;
+        min-height: 100vh;
+        border-radius: 0;
+        margin: 0;
+        box-shadow: none;
+    }
+}
+
+@media (min-width: 1025px) {
+    .mobile-layout {
+        width: 430px;
+        min-height: 100vh;
+        border-radius: 1.5rem;
+        box-shadow: none; /* keep no shadow to avoid visible band */
+    }
+}
+
+/*Logo*/
+
+.login-logo {
+    width: 150px;
+    height: 150px;
+    margin-bottom: 1rem;
+    object-fit: contain;
+}
+
+/*card de estudiante*/
+
+.student-code-field {
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    margin: 0 auto 1.5rem auto;
+}
+
+.student-code-card {
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.student-code-label {
+    font-weight: bold;
+    font-size: 0.95rem;
+    color: #7c3f1c;
+    margin-bottom: 0.7rem;
+}
+.student-code-input {
+    background: #ffffff;
+    border: none;
+    border-radius: 0.7rem;
+    box-shadow: 0 0 4px rgba(0,0,0,0.05);
+    padding: 0.8rem 1rem 0.8rem 2.5rem;
+    font-size: 1rem;
+}
+
+.student-code-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.student-code-icon {
+    position: absolute;
+    left: 0.8rem;
+    color: #7c3f1c;
+    pointer-events: none;
+}
+
+/*card de Password*/
+
+.password-entry-field {
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    margin: 0 auto 1.5rem auto;
+}
+
+.password-entry-card {
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.password-entry-label {
+    font-weight: bold;
+    font-size: 0.95rem;
+    color: #7c3f1c;
+    margin-bottom: 0.7rem;
+}
+
+.password-entry-input {
+    background: #ffffff;
+    border: none;
+    border-radius: 0.7rem;
+    box-shadow: 0 0 4px rgba(0,0,0,0.05);
+    padding: 0.8rem 1rem 0.8rem 2.5rem;
+    font-size: 1rem;
+}
+
+.password-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.password-icon {
+    position: absolute;
+    left: 0.8rem;
+    color: #7c3f1c;
+    pointer-events: none;
+}
+
+/*Parte de Recordarme y olvide mi contraseña*/
+
+.login-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 1rem auto 2rem auto;
+    padding: 0 1rem;
+    font-size: 0.9rem;
+}
+
+.login-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #7c3f1c;
+    cursor: pointer;
+}
+
+.login-checkbox input[type="checkbox"] {
+    accent-color: #e53935;
+    cursor: pointer;
+}
+
+.login-forgot-password {
+    background: none;
+    border: none;
+    color: #e53935;
+    font-weight: bold;
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-decoration: none;
+    padding: 0;
+}
+
+/*Boton de Login*/
+
+.login-button {
+    background: #e53935;
+    color: #ffffff;
+    font-weight: bold;
+    border: none;
+    border-radius: 0.7rem;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    margin-top: 1.5rem;
+    cursor: pointer;
+    width: 95%;
+    box-shadow: 0 2px 8px rgba(229, 57, 53, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+.login-button:hover:not(:disabled) {
+    background: #d32f2f;
+}
+
+.login-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/*Registrate*/
+
+.register-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.3rem;
+    margin-top: 2rem;
+    font-size: 0.95rem;
+    color: #7c3f1c;
+}
+
+.register-button {
+    background: none;
+    border: none;
+    color: #e53935;
+    font-weight: bold;
+    font-size: 0.95rem;
+    cursor: pointer;
+    text-decoration: none;
+    padding: 0;
 }
