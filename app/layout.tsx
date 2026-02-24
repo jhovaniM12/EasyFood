@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import BottomNav from "@/components/shared/BottomNav";
+import MainContent from "@/components/shared/MainContent";
 
 export const metadata: Metadata = {
   title: "EasyFood",
@@ -14,11 +15,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className="antialiased layout-bg h-screen overflow-hidden pt-[0.1px]">
-        <div className="mobile-layout h-screen relative flex flex-col overflow-hidden">
-          <main className="flex-1 overflow-y-auto pb-16">
-            {children}
-          </main>
+      <body className="antialiased layout-bg overflow-hidden" style={{ height: '100dvh' }}>
+        <div className="mobile-layout relative flex flex-col overflow-hidden" style={{ height: '100dvh' }}>
+          <MainContent>{children}</MainContent>
           <BottomNav />
         </div>
       </body>

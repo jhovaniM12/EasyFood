@@ -1,4 +1,3 @@
-import React from "react";
 
 interface LoginButtonProps {
   onClick?: () => void;
@@ -7,7 +6,7 @@ interface LoginButtonProps {
 
 export default function LoginButton({ onClick, isLoading }: LoginButtonProps) {
   return (
-    <button 
+    <button
       className="login-button"
       onClick={onClick}
       disabled={isLoading}

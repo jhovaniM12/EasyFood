@@ -232,3 +232,12 @@ body {
     text-decoration: none;
     padding: 0;
 }
+
+/* Ocultar scrollbar (para FilterTabs y similares) */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}

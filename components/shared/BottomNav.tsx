@@ -27,14 +27,30 @@ export default function SimpleBottomNavigation() {
         return null;
     }
 
+    // No mostrar el navbar en la página de login
+    if (pathname === '/') {
+        return null;
+    }
+
     return (
-        <Box sx={{ width: '100%', position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 10 }}>
+        <Box sx={{ width: '100%', flexShrink: 0 }}>
             <BottomNavigation
                 showLabels
                 value={value}
                 onChange={(event, newValue) => {
                     setValue(newValue);
                     router.push(routes[newValue]);
+                }}
+                sx={{
+                    "& .MuiBottomNavigationAction-root": {
+                        color: "#9CA3AF",
+                    },
+                    "& .MuiBottomNavigationAction-root.Mui-selected": {
+                        color: "#E53935",
+                        "& .MuiBottomNavigationAction-label": {
+                            fontWeight: "bold",
+                        },
+                    },
                 }}
             >
                 <BottomNavigationAction label="Inicio" icon={<Home size={20} />} />
