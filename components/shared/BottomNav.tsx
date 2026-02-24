@@ -5,8 +5,10 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import { Home, ShoppingBasket, History, User } from 'lucide-react';
+import { Home, ShoppingCart, ClipboardClock, UserRoundPen } from 'lucide-react';
 import { useRouter, usePathname } from 'next/navigation';
+
+
 
 export default function SimpleBottomNavigation() {
     const router = useRouter();
@@ -54,9 +56,9 @@ export default function SimpleBottomNavigation() {
                 }}
             >
                 <BottomNavigationAction label="Inicio" icon={<Home size={20} />} />
-                <BottomNavigationAction label="Carrito" icon={<ShoppingBasket size={20} />} />
-                <BottomNavigationAction label="Historial" icon={<History size={20} />} />
-                <BottomNavigationAction label="Perfil" icon={<User size={20} />} />
+                <BottomNavigationAction label="Carrito" icon={<ShoppingCart size={20} />} />
+                <BottomNavigationAction label="Historial" icon={<ClipboardClock size={20} />} />
+                <BottomNavigationAction label="Perfil" icon={<UserRoundPen size={20} />} />
             </BottomNavigation>
         </Box>
     );
