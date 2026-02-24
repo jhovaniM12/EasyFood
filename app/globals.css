@@ -19,7 +19,9 @@ body {
 
 .mobile-layout {
     width: 100vw;
-    background: transparent;
+    height: 100vh;
+    max-width: 430px;
+    background: #FAFAFA;
     display: flex;
     flex-direction: column;
     margin: 0 auto;

@@ -14,9 +14,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className="antialiased layout-bg h-screen overflow-hidden pt-[0.1px]">
-        <div className="mobile-layout h-screen relative flex flex-col overflow-hidden">
-          <main className="flex-1 overflow-y-auto pb-16">
+      <body className="antialiased layout-bg h-screen overflow-hidden flex items-center justify-center ">
+        <div className="mobile-layout h-screen relative flex flex-col overflow-hidden mx-auto">
+          <main className="flex-1 overflow-y-auto overscroll-none">
             {children}
           </main>
           <BottomNav />
