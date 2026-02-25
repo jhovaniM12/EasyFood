@@ -15,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className="antialiased layout-bg overflow-hidden" style={{ height: '100dvh' }}>
+      <body className="antialiased layout-bg overflow-hidden flex justify-center bg-gray-200" style={{ height: '100dvh' }}>
         <div className="mobile-layout relative flex flex-col overflow-hidden" style={{ height: '100dvh' }}>
           <MainContent>{children}</MainContent>
           <BottomNav />

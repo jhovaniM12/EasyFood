@@ -9,7 +9,7 @@ import { Lock } from 'lucide-react';
 
 export default function ProfilePage() {
   return (
-    <Box sx={{ p: 3, backgroundColor: '#FAFAFA ' }}>
+    <Box sx={{ p: 3, backgroundColor: '#FDF4ED ' }}>
       <ProfileHeader 
         name="Mateo Arias"
         role="Estudiante - Ingeniería Informática"
