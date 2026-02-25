@@ -7,7 +7,7 @@ export default function HistoryPage() {
     const imgBurger = "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80";
     const imgWater = "https://images.unsplash.com/photo-1523362628745-0c100150b504?w=400&q=80";
     const imgSalad = "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=80";
-    
+
     // Puedes cambiar este número dinámicamente luego
     const notificationCount = 1;
 
@@ -20,7 +20,7 @@ export default function HistoryPage() {
                     <IconButton sx={{ bgcolor: "white", boxShadow: "0 2px 10px rgba(0,0,0,0.05)" }}>
                         <ChevronLeft size={20} color="#2D3142" />
                     </IconButton>
-                    <Typography sx={{ fontWeight: 800, fontSize: "1.2rem", color: "#2D3142"}}>
+                    <Typography sx={{ fontWeight: 800, fontSize: "1.2rem", color: "#2D3142" }}>
                         Estado de los Pedidos
                     </Typography>
                 </Box>
@@ -35,11 +35,11 @@ export default function HistoryPage() {
                                 color: "#fff",
                                 fontSize: "0.6rem",
                                 minWidth: "16px",
-                                height: "16px",  
+                                height: "16px",
                             },
                         }}
                     >
-                        <Bell size={24} className="text-[#000000]" strokeWidth={2}/>
+                        <Bell size={24} className="text-[#000000]" strokeWidth={2} />
                     </Badge>
                 </IconButton>
             </Box>
@@ -48,13 +48,13 @@ export default function HistoryPage() {
             <Typography sx={{ fontWeight: 800, fontSize: "1.1rem", color: "#2D3142", mb: 2 }}>
                 Pedidos en curso
             </Typography>
-            <OrderHistoryCard 
+            <OrderHistoryCard
                 date="11 febrero, 9:41"
                 status="EN CURSO"
                 total="$18.100"
                 items={[
-                { image: imgBurger, quantity: 1 },
-                { image: imgWater, quantity: 2 }
+                    { image: imgBurger, quantity: 1 },
+                    { image: imgWater, quantity: 2 }
                 ]}
             />
 
@@ -62,15 +62,15 @@ export default function HistoryPage() {
             <Typography sx={{ fontWeight: 800, fontSize: "1.1rem", color: "#2D3142", mt: 4, mb: 2 }}>
                 Historial de pedidos
             </Typography>
-        
-            <OrderHistoryCard 
+
+            <OrderHistoryCard
                 date="25 enero, 12:30 PM"
                 status="COMPLETADO"
                 total="$12.500"
                 items={[{ image: imgBurger, quantity: 1 }]}
             />
 
-            <OrderHistoryCard 
+            <OrderHistoryCard
                 date="10 enero, 9:30 AM"
                 status="COMPLETADO"
                 total="$15.200"
