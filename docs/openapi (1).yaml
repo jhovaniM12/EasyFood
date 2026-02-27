@@ -1,0 +1,315 @@
+openapi: 3.0.3
+info:
+  title: EasyFood UAO API
+  version: 1.0.0
+  description: |
+    Documentación oficial de los servicios backend para el Incremento 1 del proyecto EasyFood UAO.  Incluye endpoints para autenticación mediante código institucional, catálogo de productos,  procesamiento de carrito de compras, y seguimiento de pedidos en tiempo real.
+servers:
+  - url: http://localhost:3000/api
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    UserLogin:
+      type: object
+      properties:
+        codigoInstitucional:
+          type: string
+        password:
+          type: string
+          format: password
+      required:
+        - codigoInstitucional
+        - password
+    OrderRequest:
+      type: object
+      properties:
+        puntoRecogidaId:
+          type: integer
+        metodoPago:
+          type: string
+        codigoDescuento:
+          type: string
+          nullable: true
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/OrderItemInput"
+      required:
+        - puntoRecogidaId
+        - metodoPago
+        - items
+    OrderItemInput:
+      type: object
+      properties:
+        productoId:
+          type: integer
+        cantidad:
+          type: integer
+        observaciones:
+          type: string
+          nullable: true
+      required:
+        - productoId
+        - cantidad
+    AuthResponse:
+      type: object
+      properties:
+        token:
+          type: string
+        user:
+          type: string
+    UserInfo:
+      type: object
+      properties:
+        id:
+          type: integer
+        nombre:
+          type: string
+        codigoInstitucional:
+          type: string
+        programaAcademico:
+          type: string
+        fotoPerfilUrl:
+          type: string
+        rol:
+          type: string
+          description: Un usuario tiene un único rol asignado.
+    Restaurant:
+      type: object
+      properties:
+        id:
+          type: integer
+        nombre:
+          type: string
+        ubicacion:
+          type: string
+        imagenUrl:
+          type: string
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+        nombre:
+          type: string
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+        nombre:
+          type: string
+        descripcion:
+          type: string
+        precio:
+          type: string
+          format: float
+        tiempoEspera:
+          type: string
+        imagenUrl:
+          type: string
+        esPopular:
+          type: boolean
+        restaurante:
+          type: string
+        categoria:
+          type: string
+    OrderCreationResponse:
+      type: object
+      properties:
+        orderId:
+          type: integer
+        codigoVisual:
+          type: string
+        estado:
+          type: string
+        metodoPago:
+          type: string
+        totalCompra:
+          type: string
+          format: float
+        mensaje:
+          type: string
+    OrderTrackingResponse:
+      type: object
+      properties:
+        codigoVisual:
+          type: string
+        estado:
+          type: string
+        posicionFila:
+          type: integer
+        tiempoEstimadoEntrega:
+          type: string
+        qrCodeData:
+          type: string
+        total:
+          type: string
+          format: float
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/OrderSummaryItem"
+    OrderSummaryItem:
+      type: object
+      properties:
+        nombre:
+          type: string
+        precioUnitario:
+          type: string
+          format: float
+        cantidad:
+          type: integer
+        imagenUrl:
+          type: string
+        observaciones:
+          type: string
+security:
+  - bearerAuth: []
+paths:
+  /auth/login:
+    post:
+      summary: Iniciar sesión
+      description: ""
+      responses:
+        "200":
+          description: Login exitoso.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "401":
+          description: Credenciales inválidas.
+      tags:
+        - Autenticación
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserLogin"
+  /me:
+    get:
+      summary: Obtener perfil del usuario actual
+      description: ""
+      responses:
+        "200":
+          description: Perfil recuperado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserInfo"
+      tags:
+        - Autenticación
+  /restaurants:
+    get:
+      summary: Listar restaurantes
+      description: ""
+      responses:
+        "200":
+          description: Puntos de recogida disponibles.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Restaurant"
+      tags:
+        - Catálogo
+  /categories:
+    get:
+      summary: Listar categorías del menú
+      description: ""
+      responses:
+        "200":
+          description: Categorías para el filtro del Home.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Category"
+      tags:
+        - Catálogo
+  /products:
+    get:
+      summary: Obtener el menú de comida
+      description: ""
+      responses:
+        "200":
+          description: Lista de productos.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+      tags:
+        - Catálogo
+      parameters:
+        - in: query
+          name: restauranteId
+          required: false
+          schema:
+            type: integer
+        - in: query
+          name: categoriaId
+          required: false
+          schema:
+            type: integer
+  /orders:
+    get:
+      summary: Historial de pedidos
+      description: ""
+      responses:
+        "200":
+          description: Historial del usuario.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OrderCreationResponse"
+      tags:
+        - Pedidos
+    post:
+      summary: Crear nuevo pedido
+      description: ""
+      responses:
+        "201":
+          description: Pedido registrado.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderCreationResponse"
+      tags:
+        - Pedidos
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderRequest"
+  /orders/{orderId}/tracking:
+    get:
+      summary: Seguimiento del pedido en curso
+      description: ""
+      responses:
+        "200":
+          description: Datos en tiempo real.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderTrackingResponse"
+      tags:
+        - Pedidos
+      parameters:
+        - in: path
+          name: orderId
+          required: true
+          schema:
+            type: integer
