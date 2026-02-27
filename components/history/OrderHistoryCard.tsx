@@ -1,6 +1,7 @@
 // components/history/OrderHistoryCard.tsx
 import { Box, Typography, Button, Chip, AvatarGroup, Avatar } from "@mui/material";
 import { FileText } from "lucide-react"; // O usa el icono de lista que prefieras
+import Link from "next/link";
 
 interface OrderItem {
   image: string;
@@ -12,9 +13,10 @@ interface OrderHistoryCardProps {
   status: "EN CURSO" | "COMPLETADO";
   items: OrderItem[];
   total: string;
+  summaryHref?: string;
 }
 
-export const OrderHistoryCard = ({ date, status, items, total }: OrderHistoryCardProps) => {
+export const OrderHistoryCard = ({ date, status, items, total, summaryHref }: OrderHistoryCardProps) => {
   const isPending = status === "EN CURSO";
 
   return (
@@ -75,6 +77,8 @@ export const OrderHistoryCard = ({ date, status, items, total }: OrderHistoryCar
       {/* Botón Resumen */}
       <Button
         fullWidth
+        component={summaryHref ? Link : "button"}
+        href={summaryHref}
         startIcon={<FileText size={18} />}
         sx={{
           bgcolor: isPending ? "#13EC37" : "#D94E41",

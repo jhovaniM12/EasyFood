@@ -52,6 +52,7 @@ export default function HistoryPage() {
                 date="11 febrero, 9:41"
                 status="EN CURSO"
                 total="$18.100"
+                summaryHref="/history/OrderSummary?status=EN_CURSO"
                 items={[
                     { image: imgBurger, quantity: 1 },
                     { image: imgWater, quantity: 2 }
@@ -67,6 +68,7 @@ export default function HistoryPage() {
                 date="25 enero, 12:30 PM"
                 status="COMPLETADO"
                 total="$12.500"
+                summaryHref="/history/OrderSummary?status=COMPLETADO"
                 items={[{ image: imgBurger, quantity: 1 }]}
             />
 
@@ -74,6 +76,7 @@ export default function HistoryPage() {
                 date="10 enero, 9:30 AM"
                 status="COMPLETADO"
                 total="$15.200"
+                summaryHref="/history/OrderSummary?status=COMPLETADO"
                 items={[{ image: imgSalad, quantity: 1 }]}
             />
 
