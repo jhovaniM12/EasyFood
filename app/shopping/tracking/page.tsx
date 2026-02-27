@@ -36,7 +36,16 @@ function OrderTrackingContent() {
             <OrderProgressTracker />
 
             {/* Resumen del pedido */}
-            <OrderSummaryCard itemCount={itemCount} total={total} />
+            <OrderSummaryCard
+                itemCount={itemCount}
+                total={total}
+                summaryHref="/history/OrderSummary?status=EN_CURSO"
+            />
+            <br />
+            <br />
+            <p className="px-6 pb-6 text-center text-sm font-semibold text-gray-600">
+                En el momento de recoger tu producto, entra al resumen del pedido para mostrar el codigo QR.
+            </p>
         </div>
     );
 }

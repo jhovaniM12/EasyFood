@@ -1,19 +1,21 @@
 import { ChevronRight, ClipboardList } from "lucide-react";
+import Link from "next/link";
 import { ORDER_TRACKING_COPY } from "@/constants/OrderTracking";
 
 interface OrderSummaryCardProps {
     itemCount: number;
     total: number;
+    summaryHref?: string;
 }
 
 function formatCOP(value: number) {
     return "$" + value.toLocaleString("es-CO");
 }
 
-export default function OrderSummaryCard({ itemCount, total }: OrderSummaryCardProps) {
+export default function OrderSummaryCard({ itemCount, total, summaryHref }: OrderSummaryCardProps) {
     const articleLabel = itemCount === 1 ? "artículo" : "artículos";
 
-    return (
+    const content = (
         <div className="mx-4 mt-6 bg-white rounded-2xl shadow-sm px-4 py-4 flex items-center justify-between border border-gray-100">
             <div className="flex items-center gap-3">
                 {/* Icon */}
@@ -34,5 +36,15 @@ export default function OrderSummaryCard({ itemCount, total }: OrderSummaryCardP
 
             <ChevronRight size={20} className="text-gray-400" />
         </div>
+    );
+
+    if (!summaryHref) {
+        return content;
+    }
+
+    return (
+        <Link href={summaryHref} className="block">
+            {content}
+        </Link>
     );
 }

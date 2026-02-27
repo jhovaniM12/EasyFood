@@ -2,8 +2,10 @@
 import { Box, Typography, IconButton, Badge } from "@mui/material"; // Añadimos Badge aquí
 import { ChevronLeft, Bell } from "lucide-react";
 import { OrderHistoryCard } from "@/components/history/OrderHistoryCard";
+import { useRouter } from "next/navigation";
 
 export default function HistoryPage() {
+    const router = useRouter();
     const imgBurger = "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80";
     const imgWater = "https://images.unsplash.com/photo-1523362628745-0c100150b504?w=400&q=80";
     const imgSalad = "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=80";
@@ -17,7 +19,10 @@ export default function HistoryPage() {
             {/* Header Superior */}
             <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 4 }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                    <IconButton sx={{ bgcolor: "white", boxShadow: "0 2px 10px rgba(0,0,0,0.05)" }}>
+                    <IconButton
+                        onClick={() => router.push("/home")}
+                        sx={{ bgcolor: "white", boxShadow: "0 2px 10px rgba(0,0,0,0.05)" }}
+                    >
                         <ChevronLeft size={20} color="#2D3142" />
                     </IconButton>
                     <Typography sx={{ fontWeight: 800, fontSize: "1.2rem", color: "#2D3142" }}>
@@ -53,6 +58,7 @@ export default function HistoryPage() {
                 status="EN CURSO"
                 total="$18.100"
                 summaryHref="/history/OrderSummary?status=EN_CURSO"
+                trackingHref="/shopping/tracking"
                 items={[
                     { image: imgBurger, quantity: 1 },
                     { image: imgWater, quantity: 2 }
@@ -69,6 +75,7 @@ export default function HistoryPage() {
                 status="COMPLETADO"
                 total="$12.500"
                 summaryHref="/history/OrderSummary?status=COMPLETADO"
+                trackingHref="/shopping/tracking"
                 items={[{ image: imgBurger, quantity: 1 }]}
             />
 
@@ -77,6 +84,7 @@ export default function HistoryPage() {
                 status="COMPLETADO"
                 total="$15.200"
                 summaryHref="/history/OrderSummary?status=COMPLETADO"
+                trackingHref="/shopping/tracking"
                 items={[{ image: imgSalad, quantity: 1 }]}
             />
 
