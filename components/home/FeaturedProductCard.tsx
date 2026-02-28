@@ -11,6 +11,7 @@ interface FeaturedProductCardProps {
     price: string;
     description: string;
     waitTime: string;
+    onAdd?: () => void;
 }
 
 export default function FeaturedProductCard({
@@ -20,6 +21,7 @@ export default function FeaturedProductCard({
     price,
     description,
     waitTime,
+    onAdd,
 }: FeaturedProductCardProps) {
     return (
         <div className="mx-2 bg-white rounded-2xl overflow-hidden shadow-md flex">
@@ -77,6 +79,7 @@ export default function FeaturedProductCard({
                     />
                     <IconButton
                         size="small"
+                        onClick={onAdd}
                         sx={{
                             backgroundColor: "#E53935",
                             color: "#fff",

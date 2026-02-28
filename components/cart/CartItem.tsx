@@ -2,7 +2,7 @@
 
 import IconButton from "@mui/material/IconButton";
 import { X, Minus, Plus } from "lucide-react";
-import { CartItemType } from "@/constants/CartItems";
+import { CartItem as CartItemType } from "@/contexts/CartContext";
 
 interface CartItemProps {
     item: CartItemType;

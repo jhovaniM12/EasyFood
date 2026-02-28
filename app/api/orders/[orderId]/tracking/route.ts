@@ -25,7 +25,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
         const orders = await sql`
       SELECT
         id_pedido,
-        codigo            AS "codigoVisual",
+        codigo_visual     AS "codigoVisual",
         estado,
         metodo_pago       AS "metodoPago",
         total_compra::text AS total,

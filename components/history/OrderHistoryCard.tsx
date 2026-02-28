@@ -1,6 +1,7 @@
 // components/history/OrderHistoryCard.tsx
 import { Box, Typography, Button, Chip, AvatarGroup, Avatar } from "@mui/material";
-import { FileText } from "lucide-react"; // O usa el icono de lista que prefieras
+import { FileText, Truck } from "lucide-react"; // O usa el icono de lista que prefieras
+import Link from "next/link";
 
 interface OrderItem {
   image: string;
@@ -12,9 +13,11 @@ interface OrderHistoryCardProps {
   status: "EN CURSO" | "COMPLETADO" | "LISTO" | "CANCELADO";
   items: OrderItem[];
   total: string;
+  summaryHref?: string;
+  trackingHref?: string;
 }
 
-export const OrderHistoryCard = ({ date, status, items, total }: OrderHistoryCardProps) => {
+export const OrderHistoryCard = ({ date, status, items, total, summaryHref, trackingHref }: OrderHistoryCardProps) => {
   const isPending = status === "EN CURSO";
 
   return (
@@ -72,22 +75,51 @@ export const OrderHistoryCard = ({ date, status, items, total }: OrderHistoryCar
         </Box>
       </Box>
 
-      {/* Botón Resumen */}
-      <Button
-        fullWidth
-        startIcon={<FileText size={18} />}
-        sx={{
-          bgcolor: isPending ? "#13EC37" : "#D94E41",
-          color: isPending ? "#1A5D1A" : "white",
-          borderRadius: 3,
-          py: 1.2,
-          fontWeight: "bold",
-          textTransform: "none",
-          "&:hover": { bgcolor: isPending ? "#A6E876" : "#C13E32" }
-        }}
-      >
-        Resumen del pedido
-      </Button>
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 1, mt: 1.25 }}>
+        {trackingHref && (
+          <Button
+            fullWidth
+            component={Link}
+            href={trackingHref}
+            startIcon={<Truck size={16} />}
+            sx={{
+              width: "100%",
+              minHeight: 44,
+              bgcolor: isPending ? "#13EC37" : "#D94E41",
+              color: isPending ? "#1A5D1A" : "white",
+              borderRadius: 3,
+              py: 0.9,
+              fontWeight: "bold",
+              fontSize: "0.85rem",
+              textTransform: "none",
+              "&:hover": { bgcolor: isPending ? "#A6E876" : "#C13E32" }
+            }}
+          >
+            Seguimiento de producto
+          </Button>
+        )}
+
+        <Button
+          fullWidth
+          component={summaryHref ? Link : "button"}
+          href={summaryHref}
+          startIcon={<FileText size={18} />}
+          sx={{
+            width: "100%",
+            minHeight: 44,
+            bgcolor: "transparent",
+            color: isPending ? "#1A5D1A" : "#D94E41",
+            border: isPending ? "1.5px solid #13EC37" : "1.5px solid #D94E41",
+            borderRadius: 3,
+            py: 1.2,
+            fontWeight: "bold",
+            textTransform: "none",
+            "&:hover": { bgcolor: isPending ? "#E9FBEF" : "#FFF2F1" }
+          }}
+        >
+          Resumen del pedido
+        </Button>
+      </Box>
     </Box>
   );
 };

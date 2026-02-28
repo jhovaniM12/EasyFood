@@ -5,14 +5,17 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
+import MuiBadge from '@mui/material/Badge';
 import { Home, ShoppingCart, ClipboardClock, UserRoundPen } from 'lucide-react';
 import { useRouter, usePathname } from 'next/navigation';
+import { useCart } from '@/contexts/CartContext';
 
 
 
 export default function SimpleBottomNavigation() {
     const router = useRouter();
     const pathname = usePathname();
+    const { totalItems } = useCart();
 
     // Mapeamos las rutas a índices para que el componente de MUI sepa cuál está activo
     const routes = ['/home', '/shopping', '/history', '/profile'];
@@ -33,6 +36,15 @@ export default function SimpleBottomNavigation() {
     if (pathname === '/') {
         return null;
     }
+
+    const cartIcon = (
+        <MuiBadge
+            badgeContent={totalItems || undefined}
+            sx={{ "& .MuiBadge-badge": { backgroundColor: "#E53935", color: "#fff", fontSize: "0.6rem", minWidth: 16, height: 16 } }}
+        >
+            <ShoppingCart size={20} />
+        </MuiBadge>
+    );
 
     return (
         <Box sx={{ width: '100%', flexShrink: 0 }}>
@@ -56,7 +68,7 @@ export default function SimpleBottomNavigation() {
                 }}
             >
                 <BottomNavigationAction label="Inicio" icon={<Home size={20} />} />
-                <BottomNavigationAction label="Carrito" icon={<ShoppingCart size={20} />} />
+                <BottomNavigationAction label="Carrito" icon={cartIcon} />
                 <BottomNavigationAction label="Historial" icon={<ClipboardClock size={20} />} />
                 <BottomNavigationAction label="Perfil" icon={<UserRoundPen size={20} />} />
             </BottomNavigation>

@@ -1,4 +1,4 @@
-import { ORDER_STEPS, TrackingStep } from "@/constants/OrderTracking";
+import { TrackingStep } from "@/constants/OrderTracking";
 
 function StepNode({ step }: { step: TrackingStep }) {
     const isDone = step.state === "done";
@@ -7,19 +7,16 @@ function StepNode({ step }: { step: TrackingStep }) {
 
     return (
         <div className="flex flex-col items-center gap-2">
-            {/* Circle */}
             <div
                 className={`w-11 h-11 rounded-full flex items-center justify-center border-2 transition-all ${isDone
+                    ? "bg-[#E53935] border-[#E53935] shadow-md shadow-[#E53935]/30"
+                    : isActive
                         ? "bg-[#E53935] border-[#E53935] shadow-md shadow-[#E53935]/30"
-                        : isActive
-                            ? "bg-[#E53935] border-[#E53935] shadow-md shadow-[#E53935]/30"
-                            : "bg-white border-gray-300"
+                        : "bg-white border-gray-300"
                     }`}
             >
                 {step.icon}
             </div>
-
-            {/* Label */}
             <span
                 className={`text-[10px] font-bold tracking-wide ${isPending ? "text-gray-400" : "text-[#E53935]"
                     }`}
@@ -38,14 +35,18 @@ function Connector({ done }: { done: boolean }) {
     );
 }
 
-export default function OrderProgressTracker() {
+interface OrderProgressTrackerProps {
+    steps: TrackingStep[];
+}
+
+export default function OrderProgressTracker({ steps }: OrderProgressTrackerProps) {
     return (
         <div className="mx-4 mt-8 flex items-center">
-            {ORDER_STEPS.map((step, i) => (
+            {steps.map((step, i) => (
                 <div key={step.id} className="flex items-center flex-1 last:flex-none">
                     <StepNode step={step} />
-                    {i < ORDER_STEPS.length - 1 && (
-                        <Connector done={ORDER_STEPS[i].state === "done"} />
+                    {i < steps.length - 1 && (
+                        <Connector done={step.state === "done"} />
                     )}
                 </div>
             ))}

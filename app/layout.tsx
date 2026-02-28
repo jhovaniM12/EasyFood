@@ -3,6 +3,7 @@ import "./globals.css";
 import BottomNav from "@/components/shared/BottomNav";
 import MainContent from "@/components/shared/MainContent";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { CartProvider } from "@/contexts/CartContext";
 
 export const metadata: Metadata = {
   title: "EasyFood",
@@ -18,10 +19,12 @@ export default function RootLayout({
     <html lang="es">
       <body className="antialiased layout-bg overflow-hidden flex justify-center bg-gray-200" style={{ height: '100dvh' }}>
         <AuthProvider>
-          <div className="mobile-layout relative flex flex-col overflow-hidden" style={{ height: '100dvh' }}>
-            <MainContent>{children}</MainContent>
-            <BottomNav />
-          </div>
+          <CartProvider>
+            <div className="mobile-layout relative flex flex-col overflow-hidden" style={{ height: '100dvh' }}>
+              <MainContent>{children}</MainContent>
+              <BottomNav />
+            </div>
+          </CartProvider>
         </AuthProvider>
       </body>
     </html>

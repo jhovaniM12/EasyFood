@@ -13,9 +13,10 @@ function ActionsContent() {
     const order = params.get("order") ?? "EF-UAO-000";
     const total = params.get("total") ?? "0";
     const items = params.get("items") ?? "1";
+    const orderId = params.get("orderId") ?? "";
 
     const handleTrackOrder = () => {
-        router.push(`/shopping/tracking?order=${order}&total=${total}&items=${items}`);
+        router.push(`/shopping/tracking?orderId=${orderId}&order=${order}&total=${total}&items=${items}`);
     };
 
     return (

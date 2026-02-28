@@ -2,7 +2,6 @@
 
 import { useState, useMemo, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { CartItemType, initialCartItems } from "@/constants/CartItems";
 import CartHeader from "@/components/cart/CartHeader";
 import CartItem from "@/components/cart/CartItem";
 import PickupPointSelector from "@/components/cart/PickupPointSelector";
@@ -14,6 +13,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import Button from "@mui/material/Button";
 import { catalogService, Restaurant } from "@/services/catalog/CatalogService";
 import { ordersService } from "@/services/orders/OrdersService";
+import { useCart } from "@/contexts/CartContext";
 
 type Step = "cart" | "payment";
 
@@ -23,7 +23,7 @@ function formatCOP(value: number) {
 
 export default function ShoppingPage() {
     const router = useRouter();
-    const [items, setItems] = useState<CartItemType[]>(initialCartItems);
+    const { items, removeItem, increment, decrement, clearCart } = useCart();
     const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
     const [selectedPickup, setSelectedPickup] = useState<number | null>(null);
     const [step, setStep] = useState<Step>("cart");
@@ -40,10 +40,6 @@ export default function ShoppingPage() {
     const subtotal = useMemo(() => items.reduce((acc, i) => acc + i.price * i.quantity, 0), [items]);
     const discount = discountApplied ? Math.floor(subtotal * 0.1) : 0;
     const total = subtotal - discount;
-
-    const handleRemove = (id: number) => setItems((prev) => prev.filter((i) => i.id !== id));
-    const handleIncrement = (id: number) => setItems((prev) => prev.map((i) => i.id === id ? { ...i, quantity: i.quantity + 1 } : i));
-    const handleDecrement = (id: number) => setItems((prev) => prev.map((i) => i.id === id ? { ...i, quantity: i.quantity - 1 } : i).filter((i) => i.quantity > 0));
 
     const handleApplyDiscount = (code: string) => {
         if (code.toUpperCase() === "UAO10") {
@@ -63,8 +59,9 @@ export default function ShoppingPage() {
                 codigoDescuento: discountCode ?? null,
                 items: items.map((i) => ({ productoId: i.id, cantidad: i.quantity })),
             });
+            clearCart();
             router.push(
-                `/shopping/success?order=${order.codigoVisual}&total=${order.totalCompra}&method=${selectedPayment}&items=${items.reduce((s, i) => s + i.quantity, 0)}`
+                `/shopping/success?orderId=${order.orderId}&order=${order.codigoVisual}&total=${order.totalCompra}&method=${selectedPayment}&items=${items.reduce((s, i) => s + i.quantity, 0)}`
             );
         } catch (err) {
             setCheckoutError(err instanceof Error ? err.message : "Error al procesar el pedido");
@@ -141,7 +138,7 @@ export default function ShoppingPage() {
                     </div>
                 ) : (
                     items.map((item) => (
-                        <CartItem key={item.id} item={item} onRemove={handleRemove} onIncrement={handleIncrement} onDecrement={handleDecrement} />
+                        <CartItem key={item.id} item={item} onRemove={removeItem} onIncrement={increment} onDecrement={decrement} />
                     ))
                 )}
             </div>

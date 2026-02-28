@@ -85,11 +85,28 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
             );
         }
 
+        // Restore stock when cancelling
+        if (newStatus === "cancelado") {
+            const items = await sql`
+          SELECT id_producto, cantidad
+          FROM public.detalle_pedido
+          WHERE id_pedido = ${orderIdNum}
+        `;
+
+            for (const item of items) {
+                await sql`
+            UPDATE public.productos
+            SET stock = stock + ${item.cantidad}
+            WHERE id_producto = ${item.id_producto}
+          `;
+            }
+        }
+
         const [updated] = await sql`
       UPDATE public.pedidos
       SET estado = ${newStatus}
       WHERE id_pedido = ${orderIdNum}
-      RETURNING id_pedido AS "orderId", codigo AS "codigoVisual", estado, metodo_pago AS "metodoPago", total_compra::text AS "totalCompra"
+      RETURNING id_pedido AS "orderId", codigo_visual AS "codigoVisual", estado, metodo_pago AS "metodoPago", total_compra::text AS "totalCompra"
     `;
 
         return NextResponse.json(updated, { status: 200 });

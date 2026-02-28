@@ -5,6 +5,7 @@ interface RestaurantSectionProps {
     location: string;
     children: React.ReactNode;
     showLocation?: boolean;
+    showMoreButton?: boolean;
 }
 
 export default function RestaurantSection({
@@ -12,6 +13,7 @@ export default function RestaurantSection({
     location,
     children,
     showLocation = true,
+    showMoreButton = true,
 }: RestaurantSectionProps) {
     return (
         <section className="px-4 mt-5">
@@ -26,9 +28,11 @@ export default function RestaurantSection({
                         </div>
                     )}
                 </div>
-                <button className="text-[#E53935] text-xs font-semibold mt-1 hover:underline">
-                    Ver más
-                </button>
+                {showMoreButton && (
+                    <button className="text-[#E53935] text-xs font-semibold mt-1 hover:underline">
+                        Ver más
+                    </button>
+                )}
             </div>
 
             {/* Contenido */}

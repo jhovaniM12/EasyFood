@@ -10,6 +10,7 @@ interface ProductCardProps {
     description: string;
     price: string;
     waitTime: string;
+    onAdd?: () => void;
 }
 
 export default function ProductCard({
@@ -18,6 +19,7 @@ export default function ProductCard({
     description,
     price,
     waitTime,
+    onAdd,
 }: ProductCardProps) {
     return (
         <div className="bg-white rounded-2xl overflow-hidden shadow-md flex flex-col">
@@ -58,6 +60,7 @@ export default function ProductCard({
                     </span>
                     <IconButton
                         size="small"
+                        onClick={onAdd}
                         sx={{
                             backgroundColor: "#E53935",
                             color: "#fff",

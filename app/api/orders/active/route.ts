@@ -3,14 +3,14 @@ import { sql } from "@/lib/db";
 import { getAuthUser } from "@/lib/middleware";
 
 export async function GET(request: NextRequest) {
-    const auth = getAuthUser(request);
-    if ("error" in auth) return auth.error;
+  const auth = getAuthUser(request);
+  if ("error" in auth) return auth.error;
 
-    try {
-        const rows = await sql`
+  try {
+    const rows = await sql`
       SELECT
         p.id_pedido             AS "orderId",
-        p.codigo                AS "codigoVisual",
+        p.codigo_visual         AS "codigoVisual",
         p.estado,
         p.metodo_pago           AS "metodoPago",
         p.total_compra::text    AS "totalCompra",
@@ -34,12 +34,12 @@ export async function GET(request: NextRequest) {
       ORDER BY p.fecha_pedido DESC
     `;
 
-        return NextResponse.json(rows, { status: 200 });
-    } catch (error) {
-        console.error("[GET /api/orders/active]", error);
-        return NextResponse.json(
-            { error: "InternalServerError", message: "Error interno del servidor" },
-            { status: 500 }
-        );
-    }
+    return NextResponse.json(rows, { status: 200 });
+  } catch (error) {
+    console.error("[GET /api/orders/active]", error);
+    return NextResponse.json(
+      { error: "InternalServerError", message: "Error interno del servidor" },
+      { status: 500 }
+    );
+  }
 }

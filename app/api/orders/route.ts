@@ -31,15 +31,28 @@ export async function GET(request: NextRequest) {
     try {
         const rows = await sql`
       SELECT
-        id_pedido             AS "orderId",
-        codigo                AS "codigoVisual",
-        estado,
-        metodo_pago           AS "metodoPago",
-        total_compra::text    AS "totalCompra",
-        fecha_pedido          AS "fechaPedido"
-      FROM public.pedidos
-      WHERE id_usuario = ${auth.user.userId}
-      ORDER BY fecha_pedido DESC
+        p.id_pedido             AS "orderId",
+        p.codigo_visual         AS "codigoVisual",
+        p.estado,
+        p.metodo_pago           AS "metodoPago",
+        p.total_compra::text    AS "totalCompra",
+        p.fecha_pedido          AS "fechaPedido",
+        COALESCE(
+          json_agg(
+            json_build_object(
+              'nombre',    pr.nombre,
+              'cantidad',  dp.cantidad,
+              'imagenUrl', pr.imagen_url
+            )
+          ) FILTER (WHERE dp.id_detalle IS NOT NULL),
+          '[]'
+        ) AS items
+      FROM public.pedidos p
+      LEFT JOIN public.detalle_pedido dp ON dp.id_pedido = p.id_pedido
+      LEFT JOIN public.productos pr     ON pr.id_producto = dp.id_producto
+      WHERE p.id_usuario = ${auth.user.userId}
+      GROUP BY p.id_pedido
+      ORDER BY p.fecha_pedido DESC
     `;
 
         return NextResponse.json(rows, { status: 200 });
@@ -120,7 +133,7 @@ export async function POST(request: NextRequest) {
 
         const [newOrder] = await sql`
       INSERT INTO public.pedidos
-        (codigo, id_usuario, id_punto_recogida, metodo_pago, total_compra, codigo_descuento_aplicado)
+        (codigo_visual, id_usuario, id_punto_recogida, metodo_pago, total_compra, codigo_descuento_aplicado)
       VALUES
         (
           ${codigoVisual},
@@ -130,7 +143,7 @@ export async function POST(request: NextRequest) {
           ${totalCompra},
           ${codigoDescuento ?? null}
         )
-      RETURNING id_pedido, codigo, estado, metodo_pago, total_compra::text
+      RETURNING id_pedido, codigo_visual, estado, metodo_pago, total_compra::text
     `;
 
         // 5. Insert detail rows and decrement stock atomically for each item
@@ -154,7 +167,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json(
             {
                 orderId: newOrder.id_pedido,
-                codigoVisual: newOrder.codigo,
+                codigoVisual: newOrder.codigo_visual,
                 estado: newOrder.estado,
                 metodoPago: newOrder.metodo_pago,
                 totalCompra: newOrder.total_compra,
