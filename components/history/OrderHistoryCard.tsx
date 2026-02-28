@@ -9,7 +9,7 @@ interface OrderItem {
 
 interface OrderHistoryCardProps {
   date: string;
-  status: "EN CURSO" | "COMPLETADO";
+  status: "EN CURSO" | "COMPLETADO" | "LISTO" | "CANCELADO";
   items: OrderItem[];
   total: string;
 }
@@ -18,11 +18,11 @@ export const OrderHistoryCard = ({ date, status, items, total }: OrderHistoryCar
   const isPending = status === "EN CURSO";
 
   return (
-    <Box sx={{ 
-      bgcolor: "white", 
-      borderRadius: 6, 
-      p: 2.5, 
-      mb: 3, 
+    <Box sx={{
+      bgcolor: "white",
+      borderRadius: 6,
+      p: 2.5,
+      mb: 3,
       boxShadow: "0 4px 20px rgba(0,0,0,0.03)",
     }}>
       {/* Header: Fecha y Status */}
@@ -30,16 +30,16 @@ export const OrderHistoryCard = ({ date, status, items, total }: OrderHistoryCar
         <Typography sx={{ fontSize: "0.75rem", color: "#9DA3B4", fontWeight: 600 }}>
           {date}
         </Typography>
-        <Chip 
-          label={status} 
+        <Chip
+          label={status}
           size="small"
-          sx={{ 
-            bgcolor: isPending ? "#13EC37" : "#F5F5F5", 
+          sx={{
+            bgcolor: isPending ? "#13EC37" : "#F5F5F5",
             color: isPending ? "#1A5D1A" : "#9DA3B4",
             fontWeight: 800,
             fontSize: "0.65rem",
             borderRadius: 2
-          }} 
+          }}
         />
       </Box>
 
@@ -48,14 +48,14 @@ export const OrderHistoryCard = ({ date, status, items, total }: OrderHistoryCar
         <Box sx={{ display: "flex", gap: 1 }}>
           {items.map((item, idx) => (
             <Box key={idx} sx={{ position: "relative" }}>
-              <Avatar 
-                src={item.image} 
-                variant="rounded" 
-                sx={{ width: 60, height: 60, borderRadius: 3 }} 
+              <Avatar
+                src={item.image}
+                variant="rounded"
+                sx={{ width: 60, height: 60, borderRadius: 3 }}
               />
-              <Box sx={{ 
-                position: "absolute", bottom: -5, right: -5, 
-                bgcolor: "#D94E41", color: "white", 
+              <Box sx={{
+                position: "absolute", bottom: -5, right: -5,
+                bgcolor: "#D94E41", color: "white",
                 borderRadius: "50%", width: 20, height: 20,
                 display: "flex", alignItems: "center", justifyContent: "center",
                 fontSize: "0.6rem", fontWeight: "bold", border: "2px solid white"

@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
 
         // Fetch user by institutional code
         const rows = await sql`
-      SELECT id_usuario, nombre, codigo_institucional, contrasena, rol
+      SELECT id_usuario, nombre, codigo_institucional,carrera, contrasena, rol
       FROM public.usuarios
       WHERE codigo_institucional = ${codigoInstitucional}
       LIMIT 1
@@ -47,7 +47,14 @@ export async function POST(request: NextRequest) {
             rol: user.rol,
         });
 
-        return NextResponse.json({ token, user: user.nombre }, { status: 200 });
+        return NextResponse.json({
+            token, user: {
+                nombre: user.nombre,
+                carrera: user.carrera,
+                codigoInstitucional: user.codigo_institucional,
+                rol: user.rol,
+            }
+        }, { status: 200 });
     } catch (error) {
         console.error("[POST /api/auth/login]", error);
         return NextResponse.json(

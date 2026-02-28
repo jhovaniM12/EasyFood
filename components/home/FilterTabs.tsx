@@ -1,25 +1,30 @@
 "use client";
 
-import { useState } from "react";
+import { Category } from "@/services/catalog/CatalogService";
 
-const CATEGORIES = ["Recomendados", "Desayunos", "Veganas", "Postres"];
+interface FilterTabsProps {
+    categories: Category[];
+    selected?: number;
+    onSelect?: (id: number | undefined) => void;
+}
 
-export default function FilterTabs() {
-    const [active, setActive] = useState("Recomendados");
-
+export default function FilterTabs({ categories, selected, onSelect }: FilterTabsProps) {
     return (
         <div className="px-4 py-2 bg-[#FDF4ED]">
             <div className="flex gap-2 overflow-x-auto no-scrollbar">
-                {CATEGORIES.map((cat) => (
+                <button
+                    onClick={() => onSelect?.(undefined)}
+                    className={`shrink-0 px-4 py-1.5 rounded-full text-sm font-medium transition-all ${!selected ? "bg-[#E53935] text-white shadow-sm" : "bg-white text-gray-700 border border-gray-200"}`}
+                >
+                    Todos
+                </button>
+                {categories.map((cat) => (
                     <button
-                        key={cat}
-                        onClick={() => setActive(cat)}
-                        className={`shrink-0 px-4 py-1.5 rounded-full text-sm font-medium transition-all ${active === cat
-                            ? "bg-[#E53935] text-white shadow-sm"
-                            : "bg-white text-gray-700 border border-gray-200"
-                            }`}
+                        key={cat.id}
+                        onClick={() => onSelect?.(cat.id)}
+                        className={`shrink-0 px-4 py-1.5 rounded-full text-sm font-medium transition-all ${selected === cat.id ? "bg-[#E53935] text-white shadow-sm" : "bg-white text-gray-700 border border-gray-200"}`}
                     >
-                        {cat}
+                        {cat.nombre}
                     </button>
                 ))}
             </div>

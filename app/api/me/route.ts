@@ -13,8 +13,7 @@ export async function GET(request: NextRequest) {
         nombre,
         codigo_institucional AS "codigoInstitucional",
         carrera       AS "programaAcademico",
-        foto_url      AS "fotoPerfilUrl",
-        rol
+        foto_url      AS "fotoPerfilUrl"
       FROM public.usuarios
       WHERE id_usuario = ${auth.user.userId}
       LIMIT 1
@@ -26,8 +25,13 @@ export async function GET(request: NextRequest) {
                 { status: 404 }
             );
         }
-
-        return NextResponse.json(rows[0], { status: 200 });
+        const user = rows[0];
+        return NextResponse.json({
+            nombre: user.nombre,
+            codigoInstitucional: user.codigoInstitucional,
+            programaAcademico: user.programaAcademico,
+            fotoPerfilUrl: user.fotoPerfilUrl
+        }, { status: 200 });
     } catch (error) {
         console.error("[GET /api/me]", error);
         return NextResponse.json(

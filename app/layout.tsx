@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import BottomNav from "@/components/shared/BottomNav";
 import MainContent from "@/components/shared/MainContent";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 export const metadata: Metadata = {
   title: "EasyFood",
@@ -16,10 +17,12 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className="antialiased layout-bg overflow-hidden flex justify-center bg-gray-200" style={{ height: '100dvh' }}>
-        <div className="mobile-layout relative flex flex-col overflow-hidden" style={{ height: '100dvh' }}>
-          <MainContent>{children}</MainContent>
-          <BottomNav />
-        </div>
+        <AuthProvider>
+          <div className="mobile-layout relative flex flex-col overflow-hidden" style={{ height: '100dvh' }}>
+            <MainContent>{children}</MainContent>
+            <BottomNav />
+          </div>
+        </AuthProvider>
       </body>
     </html>
   );
