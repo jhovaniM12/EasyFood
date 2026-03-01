@@ -50,6 +50,7 @@ export async function GET(request: NextRequest) {
         p.imagen_url           AS "imagenUrl",
         p.es_popular           AS "esPopular",
         p.stock,
+        p.id_restaurante       AS "restauranteId",
         r.nombre               AS restaurante,
         c.nombre               AS categoria
       FROM public.productos p

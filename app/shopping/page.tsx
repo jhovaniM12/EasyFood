@@ -25,7 +25,6 @@ export default function ShoppingPage() {
     const router = useRouter();
     const { items, removeItem, increment, decrement, clearCart } = useCart();
     const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
-    const [selectedPickup, setSelectedPickup] = useState<number | null>(null);
     const [step, setStep] = useState<Step>("cart");
     const [selectedPayment, setSelectedPayment] = useState<PaymentMethod | null>(null);
     const [discountCode, setDiscountCode] = useState<string | undefined>();
@@ -40,6 +39,7 @@ export default function ShoppingPage() {
     const subtotal = useMemo(() => items.reduce((acc, i) => acc + i.price * i.quantity, 0), [items]);
     const discount = discountApplied ? Math.floor(subtotal * 0.1) : 0;
     const total = subtotal - discount;
+    const selectedPickup = items.length > 0 ? items[0].restauranteId : null;
 
     const handleApplyDiscount = (code: string) => {
         if (code.toUpperCase() === "UAO10") {
@@ -143,8 +143,8 @@ export default function ShoppingPage() {
                 )}
             </div>
 
-            {items.length > 0 && (
-                <PickupPointSelector restaurants={restaurants} selected={selectedPickup} onSelect={setSelectedPickup} />
+            {items.length > 0 && selectedPickup && (
+                <PickupPointSelector restaurants={restaurants} selected={selectedPickup} />
             )}
 
             <div className="mx-4 mt-5 border-t border-gray-200" />

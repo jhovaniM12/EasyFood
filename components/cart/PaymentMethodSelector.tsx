@@ -2,7 +2,7 @@
 
 import { PAYMENT_OPTIONS } from "@/constants/PaymentOptions";
 
-export type PaymentMethod = "nequi" | "pse" | "local";
+export type PaymentMethod = "nequi" | "pse" | "pago_local";
 
 
 
@@ -28,8 +28,8 @@ export default function PaymentMethodSelector({
                         key={option.id}
                         onClick={() => onSelect(option.id)}
                         className={`flex items-center justify-between w-full px-4 py-3 rounded-2xl bg-white border-2 transition-all duration-200 shadow-sm ${isSelected
-                                ? "border-[#E53935] shadow-md"
-                                : "border-transparent"
+                            ? "border-[#E53935] shadow-md"
+                            : "border-transparent"
                             }`}
                     >
                         <div className="flex items-center gap-3">
@@ -54,8 +54,8 @@ export default function PaymentMethodSelector({
                         {/* Radio indicator */}
                         <div
                             className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors duration-200 ${isSelected
-                                    ? "border-[#E53935]"
-                                    : "border-gray-300"
+                                ? "border-[#E53935]"
+                                : "border-gray-300"
                                 }`}
                         >
                             {isSelected && (

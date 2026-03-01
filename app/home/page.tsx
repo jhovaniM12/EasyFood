@@ -57,6 +57,7 @@ export default function HomePage() {
       price: Number(p.precio),
       priceLabel: `$${Number(p.precio).toLocaleString("es-CO")}`,
       image: p.imagenUrl ?? FALLBACK_IMAGE,
+      restauranteId: p.restauranteId,
     });
   };
 

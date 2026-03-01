@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, ReactNode, useCallback, useMemo } from "react";
+import RestaurantConflictModal from "@/components/cart/RestaurantConflictModal";
 
 export interface CartItem {
     id: number;
@@ -10,6 +11,7 @@ export interface CartItem {
     priceLabel: string;
     image: string;
     quantity: number;
+    restauranteId: number;
 }
 
 interface CartContextValue {
@@ -26,9 +28,16 @@ const CartContext = createContext<CartContextValue | null>(null);
 
 export function CartProvider({ children }: { children: ReactNode }) {
     const [items, setItems] = useState<CartItem[]>([]);
+    const [pendingProduct, setPendingProduct] = useState<Omit<CartItem, "quantity"> | null>(null);
 
     const addItem = useCallback((product: Omit<CartItem, "quantity">) => {
         setItems((prev) => {
+            // Validar que el producto sea del mismo restaurante que los existentes
+            if (prev.length > 0 && prev[0].restauranteId !== product.restauranteId) {
+                setPendingProduct(product);
+                return prev;
+            }
+
             const existing = prev.find((i) => i.id === product.id);
             if (existing) {
                 return prev.map((i) => i.id === product.id ? { ...i, quantity: i.quantity + 1 } : i);
@@ -53,9 +62,25 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
     const totalItems = useMemo(() => items.reduce((sum, i) => sum + i.quantity, 0), [items]);
 
+    const handleConfirmConflict = () => {
+        if (pendingProduct) {
+            setItems([{ ...pendingProduct, quantity: 1 }]);
+        }
+        setPendingProduct(null);
+    };
+
+    const handleCancelConflict = () => {
+        setPendingProduct(null);
+    };
+
     return (
         <CartContext.Provider value={{ items, totalItems, addItem, removeItem, increment, decrement, clearCart }}>
             {children}
+            <RestaurantConflictModal
+                open={!!pendingProduct}
+                onClose={handleCancelConflict}
+                onConfirm={handleConfirmConflict}
+            />
         </CartContext.Provider>
     );
 }

@@ -9,6 +9,7 @@ export interface Product {
     imagenUrl: string | null;
     esPopular: boolean;
     stock: number;
+    restauranteId: number;
     restaurante: string;
     categoria: string;
 }

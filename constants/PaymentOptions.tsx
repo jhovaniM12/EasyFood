@@ -28,7 +28,7 @@ export const PAYMENT_OPTIONS: PaymentOption[] = [
         iconBg: "bg-blue-100",
     },
     {
-        id: "local",
+        id: "pago_local",
         label: "Pago en el Local",
         description: "Pagar al momento de la entrega",
         cardLabel: "Pago en Local",
