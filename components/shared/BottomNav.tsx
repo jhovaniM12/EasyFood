@@ -32,8 +32,8 @@ export default function SimpleBottomNavigation() {
         return null;
     }
 
-    // No mostrar el navbar en la página de login
-    if (pathname === '/') {
+    // No mostrar el navbar en la página de login ni en rutas admin
+    if (pathname === '/' || pathname.startsWith('/admin')) {
         return null;
     }
 

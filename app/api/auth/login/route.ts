@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
 
         // Fetch user by institutional code
         const rows = await sql`
-      SELECT id_usuario, nombre, codigo_institucional,carrera, contrasena, rol
+      SELECT id_usuario, nombre, codigo_institucional, carrera, contrasena, rol, id_restaurante
       FROM public.usuarios
       WHERE codigo_institucional = ${codigoInstitucional}
       LIMIT 1
@@ -45,6 +45,7 @@ export async function POST(request: NextRequest) {
             userId: user.id_usuario,
             codigoInstitucional: user.codigo_institucional,
             rol: user.rol,
+            restauranteId: user.id_restaurante ?? null,
         });
 
         return NextResponse.json({
@@ -53,6 +54,7 @@ export async function POST(request: NextRequest) {
                 carrera: user.carrera,
                 codigoInstitucional: user.codigo_institucional,
                 rol: user.rol,
+                restauranteId: user.id_restaurante ?? null,
             }
         }, { status: 200 });
     } catch (error) {

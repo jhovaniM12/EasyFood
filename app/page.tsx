@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import * as yup from "yup";
 import PasswordEntry from "@/components/PasswordEntry";
 import StudentCodeInput from "@/components/StudentCodeInput";
@@ -15,12 +16,25 @@ const loginSchema = yup.object({
 });
 
 export default function LoginPage() {
-  const { login } = useAuth();
+  const { login, user, isLoading } = useAuth();
+  const router = useRouter();
   const [codigo, setCodigo] = useState("");
   const [password, setPassword] = useState("");
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [apiError, setApiError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  // If already logged in, redirect to the appropriate home
+  useEffect(() => {
+    if (isLoading) return;
+    if (user) {
+      if (user.rol === "admin" || user.rol === "colaborador") {
+        router.replace("/admin/order");
+      } else {
+        router.replace("/home");
+      }
+    }
+  }, [user, isLoading, router]);
 
   const handleLogin = async () => {
     setFieldErrors({});

@@ -9,11 +9,13 @@ interface AuthUser {
     carrera: string;
     codigoInstitucional: string;
     rol: string;
+    restauranteId?: number | null;
 }
 
 interface AuthContextValue {
     user: AuthUser | null;
     isAuthenticated: boolean;
+    isLoading: boolean;
     login: (codigo: string, password: string) => Promise<void>;
     logout: () => void;
 }
@@ -23,11 +25,13 @@ const AuthContext = createContext<AuthContextValue | null>(null);
 export function AuthProvider({ children }: { children: ReactNode }) {
     const router = useRouter();
     const [user, setUser] = useState<AuthUser | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     // Restore session from localStorage on mount
     useEffect(() => {
         const stored = localStorage.getItem("easyfood_user");
         if (stored) setUser(JSON.parse(stored));
+        setIsLoading(false);
     }, []);
 
     const login = async (codigoInstitucional: string, password: string) => {
@@ -35,7 +39,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         localStorage.setItem("easyfood_token", token);
         localStorage.setItem("easyfood_user", JSON.stringify(loggedUser));
         setUser(loggedUser);
-        router.push("/home");
+
+        // Redirect based on role
+        if (loggedUser.rol === "admin" || loggedUser.rol === "colaborador") {
+            router.push("/admin/order");
+        } else {
+            router.push("/home");
+        }
     };
 
     const logout = () => {
@@ -46,7 +56,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
 
     return (
-        <AuthContext.Provider value={{ user, isAuthenticated: !!user, login, logout }}>
+        <AuthContext.Provider value={{ user, isAuthenticated: !!user, isLoading, login, logout }}>
             {children}
         </AuthContext.Provider>
     );

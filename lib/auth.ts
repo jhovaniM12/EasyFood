@@ -7,6 +7,7 @@ export interface JwtPayload {
     userId: number;
     codigoInstitucional: string;
     rol: string;
+    restauranteId?: number | null;
 }
 
 /** Signs a JWT with the user payload. Expires in 8 hours. */
